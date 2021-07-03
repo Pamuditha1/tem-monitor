@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
 const cors = require('cors')
 
 const env = require('./envVariables')
@@ -17,7 +16,6 @@ app.use(cors())
 app.use(express.json());
 app.use('/api/register', register)
 app.use('/api/login', login)
-
 
 app.listen(3003, () => {
     console.log('Server is Listening on port 3003')
