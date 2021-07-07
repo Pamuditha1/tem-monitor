@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 
     //Set Token
     const token = jwt.sign({_id : user._id, name: user.username}, env.jewtKey)
-    res.status(200).header('x-auth-token', token).json({
+    res.status(200).json({
         jwt: token,
         msg: 'Logged In Successfully'
     })

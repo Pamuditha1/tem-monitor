@@ -1,55 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import Sensors from "./Sensors";
+import axios from "axios";
+import api from "../api";
 
-const data = {
-  labels: ["1", "2", "3", "4", "5", "6"],
-  datasets: [
-    {
-      label: "Temperature",
-      data: [12, 19, 3, 5, 2, 3],
-      fill: false,
-      backgroundColor: "blue",
-      borderColor: "blue",
-    },
-  ],
+const chartStyle = {
+  width: "1000px",
+  height: "auto",
+  margin: "auto",
 };
 
-const options = {
-  scales: {
-    yAxes: [
+function Chart({ sensor, user, setSensor }) {
+  const [records, setrecords] = useState([]);
+  const [data, setdata] = useState({
+    labels: [],
+    datasets: [
       {
-        ticks: {
-          beginAtZero: true,
-        },
+        label: "Temperature",
+        data: [],
+        fill: false,
+        radius: "3",
+        borderWidth: "3",
+        backgroundColor: "#152238",
+        borderColor: "#45b6fe",
       },
     ],
-  },
-};
+  });
 
-const Chart = () => {
-  const chartStyle = {
-    width: "1000px",
-    height: "auto",
-    margin: "auto",
-  };
+  const [options, setoptions] = useState({
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  });
+
+  useEffect(() => {
+    axios
+      .get(`${api}/get-records/${sensor}`)
+      .then((res) => {
+        console.log("Sen Records", res.data);
+        
+      })
+      .catch((e) => {
+        // toast.error(`Invalid Login`);
+      });
+  }, [sensor]);
+
   return (
     <>
-      {/* <div className="header">
-      <h1 className="title">Line Chart</h1>
-      <div className="links">
-        <a
-          className="btn btn-gh"
-          href="https://github.com/reactchartjs/react-chartjs-2/blob/master/example/src/charts/Line.js"
-        >
-          Github Source
-        </a>
-      </div>
-    </div> */}
-      <div style={chartStyle}>
-        <Line data={data} options={options} />
-      </div>
+      <Sensors user={user} setSensor={setSensor} sensor={sensor} />
+      {records.length != 0 && (
+        <div style={chartStyle}>
+          <Line data={data} options={options} />{" "}
+        </div>
+      )}
     </>
   );
-};
+}
 
 export default Chart;
