@@ -27,7 +27,7 @@ function Login(props) {
         // toast.success(`${r.data.msg}`);
       })
       .then(() => {
-        props.history.push("/chart");
+        props.history.push("/home");
       })
       .catch((e) => {
         // toast.error(`Invalid Login`);
