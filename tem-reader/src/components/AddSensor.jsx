@@ -20,7 +20,7 @@ function AddSensor() {
       setsensorData({ ...sensorData, user: "" });
       //   toast.error(`User not Logged In`);
     }
-  }, []);
+  }, []); //ado mn poddk mute krnoo, call ekaka inne. ee gaman hdnnm ah ela ela
 
   const submit = async (e) => {
     e.preventDefault();
