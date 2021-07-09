@@ -24,6 +24,16 @@ function Chart({ sensor, user, setSensor }) {
         backgroundColor: "#152238",
         borderColor: "#45b6fe",
       },
+      {
+        label: "Threshold Value",
+        data: [],
+        fill: false,
+        backgroundColor: "red",
+        borderWidth: "1",
+        radius: "",
+        borderColor: "red",
+        // borderDash: [5],
+      },
     ],
   });
 
@@ -44,7 +54,27 @@ function Chart({ sensor, user, setSensor }) {
       .get(`${api}/get-records/${sensor}`)
       .then((res) => {
         console.log("Sen Records", res.data);
-        
+
+        setrecords(res.data);
+
+        let labelsR = [];
+        let dataR = [];
+        let treasHHole = [];
+        res.data.forEach((d) => {
+          dataR.push(d.temperature);
+          labelsR.push(
+            `${new Date(d.timestamp).toLocaleDateString()} - ${new Date(
+              d.timestamp
+            ).toLocaleTimeString()}`
+          );
+          treasHHole.push(d.sensor.threshold_value);
+        });
+
+        let datasetsR = data.datasets;
+        datasetsR[0].data = dataR;
+        datasetsR[1].data = treasHHole;
+
+        setdata({ ...data, labels: labelsR, datasets: datasetsR });
       })
       .catch((e) => {
         // toast.error(`Invalid Login`);
