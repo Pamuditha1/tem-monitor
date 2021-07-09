@@ -7,6 +7,10 @@ const env = require('./envVariables')
 
 const register = require('./routes/registerRoute')
 const login = require('./routes/loginRoute')
+const addSensor = require('./routes/addSensorRoute')
+const getSensors = require('./routes/getSensors')
+const addRecords = require('./routes/addRecords')
+const getRecords = require('./routes/getRecords')
 
 mongoose.connect(env.mongoDB)
     .then(() => {console.log('Connected to mongoDB')})
@@ -15,6 +19,10 @@ mongoose.connect(env.mongoDB)
 
 app.use(cors())
 app.use(express.json());
+app.use('/api/add-sensor', addSensor)
+app.use('/api/get-sensors', getSensors)
+app.use('/api/add-records', addRecords)
+app.use('/api/get-records', getRecords)
 app.use('/api/register', register)
 app.use('/api/login', login)
 
