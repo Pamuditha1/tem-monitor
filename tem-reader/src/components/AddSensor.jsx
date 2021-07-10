@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import api from "../api";
 import jwtDecode from "jwt-decode";
+import { toast } from "react-toastify";
+
+import api from "../api";
 
 function AddSensor() {
   const [sensorData, setsensorData] = useState({
@@ -13,21 +15,24 @@ function AddSensor() {
   useEffect(() => {
     const jwt = localStorage.getItem("token");
 
-    // Set User by Token
     if (jwt) {
       setsensorData({ ...sensorData, user: jwtDecode(jwt)._id });
     } else {
       setsensorData({ ...sensorData, user: "" });
-      //   toast.error(`User not Logged In`);
     }
-  }, []); //ado mn poddk mute krnoo, call ekaka inne. ee gaman hdnnm ah ela ela
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
     console.log(sensorData);
-    axios.post(`${api}/add-sensor`, sensorData).catch((e) => {
-      // toast.error(`Invalid Login`);
-    });
+    axios
+      .post(`${api}/add-sensor`, sensorData)
+      .then((r) => {
+        toast.success(r.data);
+      })
+      .catch((e) => {
+        toast.error(`Sensor Adding Failed`);
+      });
   };
 
   return (

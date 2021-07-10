@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const env = require('../envVariables')
+// const env = require('../envVariables')
 
 const {User} = require('../modules/userModule')
 
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
     await newUser.save();
 
     //Create Token
-    const token = jwt.sign({_id : newUser._id, name: newUser.username}, env.jewtKey)
+    const token = jwt.sign({_id : newUser._id, name: newUser.username}, process.env.JWT_KEY)
 
     //Response
     res.status(200)
@@ -33,12 +33,8 @@ router.post('/', async (req, res) => {
     .header('access-control-expose-headers', 'x-auth-token')
     .json({
         jwt: token,
-        msg: 'Registered In Successfully'
+        msg: 'Registered Successfully'
     })
-    // .catch(e => {
-    //     console.log(e)
-    //     res.status(404).send(e)
-    // })
 
     return
     

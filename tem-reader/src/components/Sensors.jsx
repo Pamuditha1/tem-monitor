@@ -6,6 +6,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import axios from "axios";
+
 import api from "../api";
 
 function Sensors({ user, setSensor, sensor }) {
@@ -16,14 +17,9 @@ function Sensors({ user, setSensor, sensor }) {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   useEffect(() => {
-    axios
-      .get(`${api}/get-sensors/${user}`)
-      .then((res) => {
-        setsensors(res.data);
-      })
-      .catch((e) => {
-        // toast.error(`Invalid Login`);
-      });
+    axios.get(`${api}/get-sensors/${user}`).then((res) => {
+      setsensors(res.data);
+    });
   }, [user, dropdownOpen]);
 
   const selectSensor = (s) => {

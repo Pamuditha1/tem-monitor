@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const env = require("../envVariables");
+// const env = require("../envVariables");
 
 const { User } = require("../modules/userModule");
 
@@ -16,15 +16,11 @@ router.post("/", async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid Password.");
 
   //Set Token
-  const token = jwt.sign({ _id: user._id, name: user.username }, env.jewtKey);
+  const token = jwt.sign({ _id: user._id, name: user.username }, process.env.JWT_KEY);
   res.status(200).json({
     jwt: token,
     msg: "Logged In Successfully",
-  });
-  // .catch(e => {
-  //     console.log(e)
-  //     res.status(404).send(e)
-  // })
+  })
   return;
 });
 

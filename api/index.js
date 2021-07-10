@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 
-const env = require("./envVariables");
+// const env = require("./envVariables");
 
 const register = require("./routes/registerRoute");
 const login = require("./routes/loginRoute");
@@ -14,7 +14,7 @@ const getRecords = require("./routes/getRecords");
 const getAlerts = require("./routes/getAlerts");
 
 mongoose
-  .connect(env.mongoDB)
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("Connected to mongoDB");
   })

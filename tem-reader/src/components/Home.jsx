@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import { Route, Switch, Link, useLocation, Redirect } from "react-router-dom";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import AddSensor from "./AddSensor";
 import Chart from "./Chart";
@@ -22,12 +23,12 @@ const Home = (props) => {
       setuName(jwtDecode(jwt).name);
     } else {
       setuser("");
-      //   toast.error(`User not Logged In`);
     }
   }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
+    toast.dark(`Logged Out Successfully`);
     props.history.push("/");
   };
 
@@ -35,13 +36,16 @@ const Home = (props) => {
     <>
       {jwt ? (
         <div>
-          <div className="row ml-5 mt-2">
+          <div className="row bg-dark text-light ml-5 pt-2 pb-2 border-bottom border-dark ">
             <div className="col-1"></div>
-            <div className="col-1 font-weight-bold">
+            <div className="col-1 mt-2 font-weight-bold">
               <h6>{uName}</h6>
             </div>
             <div className="col-6">
-              <button onClick={logout} className="btn btn-outline-dark ml-5">
+              <button
+                onClick={logout}
+                className="btn btn-outline-secondary ml-5"
+              >
                 Logout
               </button>
             </div>
@@ -51,7 +55,7 @@ const Home = (props) => {
               <AddSensor />
             </div>
             <div className="col-3">
-              {path == "/home" ? (
+              {path === "/home" ? (
                 <Link to="/home/alerts">
                   <button className="btn btn-outline-danger">Alerts</button>
                 </Link>
