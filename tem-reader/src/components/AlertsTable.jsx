@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Sensors from "./Sensors";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import api from "../api";
+import Sensors from "./Sensors";
 
 function AlertsTable({ user, sensor, setSensor }) {
   const [alerts, setalerts] = useState([]);
@@ -13,7 +15,7 @@ function AlertsTable({ user, sensor, setSensor }) {
         setalerts(res.data);
       })
       .catch((e) => {
-        // toast.error(`Invalid Login`);
+        toast.error(`Getting Alerts Failed`);
       });
   }, [user, sensor]);
 

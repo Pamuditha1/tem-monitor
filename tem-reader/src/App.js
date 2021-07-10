@@ -1,13 +1,15 @@
 import { Route, Switch } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css'
+import {ToastContainer} from 'react-toastify'
 
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-// import "bootstrap/dist/css/bootstrap.min.css";
+
 function App() {
   return (
     <div>
-      {/* <Chart /> */}
+      <ToastContainer />
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/register" component={Register} />

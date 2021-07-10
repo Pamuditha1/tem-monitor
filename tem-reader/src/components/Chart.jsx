@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+
 import Sensors from "./Sensors";
 import axios from "axios";
 import api from "../api";
@@ -32,7 +33,6 @@ function Chart({ sensor, user, setSensor }) {
         borderWidth: "1",
         radius: "",
         borderColor: "red",
-        // borderDash: [5],
       },
     ],
   });
@@ -50,35 +50,30 @@ function Chart({ sensor, user, setSensor }) {
   });
 
   useEffect(() => {
-    axios
-      .get(`${api}/get-records/${sensor}`)
-      .then((res) => {
-        console.log("Sen Records", res.data);
+    axios.get(`${api}/get-records/${sensor}`).then((res) => {
+      console.log("Sen Records", res.data);
 
-        setrecords(res.data);
+      setrecords(res.data);
 
-        let labelsR = [];
-        let dataR = [];
-        let treasHHole = [];
-        res.data.forEach((d) => {
-          dataR.push(d.temperature);
-          labelsR.push(
-            `${new Date(d.timestamp).toLocaleDateString()} - ${new Date(
-              d.timestamp
-            ).toLocaleTimeString()}`
-          );
-          treasHHole.push(d.sensor.threshold_value);
-        });
-
-        let datasetsR = data.datasets;
-        datasetsR[0].data = dataR;
-        datasetsR[1].data = treasHHole;
-
-        setdata({ ...data, labels: labelsR, datasets: datasetsR });
-      })
-      .catch((e) => {
-        // toast.error(`Invalid Login`);
+      let labelsR = [];
+      let dataR = [];
+      let treasHHole = [];
+      res.data.forEach((d) => {
+        dataR.push(d.temperature);
+        labelsR.push(
+          `${new Date(d.timestamp).toLocaleDateString()} - ${new Date(
+            d.timestamp
+          ).toLocaleTimeString()}`
+        );
+        treasHHole.push(d.sensor.threshold_value);
       });
+
+      let datasetsR = data.datasets;
+      datasetsR[0].data = dataR;
+      datasetsR[1].data = treasHHole;
+
+      setdata({ ...data, labels: labelsR, datasets: datasetsR });
+    });
   }, [sensor]);
 
   return (

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import api from "../api";
 
 function Login(props) {
@@ -9,7 +11,6 @@ function Login(props) {
     password: "",
   });
 
-  //Handle Input Change
   const onchange = (e) => {
     setloginData({
       ...loginData,
@@ -17,20 +18,19 @@ function Login(props) {
     });
   };
 
-  //Login User
   const submit = async (e) => {
     e.preventDefault();
     axios
       .post(`${api}/login`, loginData)
       .then((r) => {
         localStorage.setItem("token", r.data.jwt);
-        // toast.success(`${r.data.msg}`);
+        toast.success(`${r.data.msg}`);
       })
       .then(() => {
         props.history.push("/home");
       })
       .catch((e) => {
-        // toast.error(`Invalid Login`);
+        toast.error(`Invalid Login`);
       });
   };
 

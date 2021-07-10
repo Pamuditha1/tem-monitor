@@ -16,11 +16,6 @@ router.post('/', async (req, res) => {
     await newSensor.save();
     
     res.status(200).send("Sensor Successfully Added")
-    // .catch(e => {
-    //     console.log(e)
-    //     res.status(404).send(e)
-    // })
-
     return
     
 });

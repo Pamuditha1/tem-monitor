@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import api from "../api";
-// import { toast } from "react-toastify";
 
 function Register(props) {
   const [userData, setuserData] = useState({
@@ -11,7 +12,6 @@ function Register(props) {
     password: "",
   });
 
-  //Handle Input Changes
   const onchange = (e) => {
     setuserData({
       ...userData,
@@ -19,20 +19,19 @@ function Register(props) {
     });
   };
 
-  //Register User
   const submit = (e) => {
     e.preventDefault();
     axios
       .post(`${api}/register`, userData)
       .then((r) => {
         localStorage.setItem("token", r.data.jwt);
-        // toast.success(`${r.data.msg}`);
+        toast.success(`${r.data.msg}`);
       })
       .then(() => {
         props.history.push("/app");
       })
       .catch((e) => {
-        // toast.error(`Already Registered`);
+        toast.error(`Register Error`);
       });
   };
 

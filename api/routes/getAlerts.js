@@ -16,7 +16,7 @@ router.get("/all/:user", async (req, res) => {
     .sort({ timestamp: "desc" })
     .populate("sensor");
 
-  res.status(200).send(alerts);
+  res.status(200).send(alerts)
 });
 
 module.exports = router;
